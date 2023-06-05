@@ -6,10 +6,8 @@ const CrashGame = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstance = useRef<Chart | null>(null);
   const gameInterval = useRef<NodeJS.Timeout | null>(null);
-  const multiplier = useRef<number>(0);
+  const [multiplier, setMultiplier] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
-  const [xAxisMax, setXAxisMax] = useState<number>(5);
-  const [yAxisMax, setYAxisMax] = useState<number>(5);
   const [crashPoint, setCrashPoint] = useState<number>(Math.random() * 50 + 1);
 
   useEffect(() => {
@@ -18,7 +16,7 @@ const CrashGame = () => {
       chartInstance.current = null;
     }
 
-    chartInstance.current = new Chart(chartRef.current!, {
+    const newChart = new Chart(chartRef.current!, {
       type: "line",
       data: {
         datasets: [
@@ -43,14 +41,14 @@ const CrashGame = () => {
           x: {
             type: "linear",
             min: 0,
-            max: xAxisMax,
+            max: 5,
             grid: {
               display: false,
             },
           },
           y: {
             min: 0,
-            max: yAxisMax,
+            max: 5,
             grid: {
               display: false,
             },
@@ -59,51 +57,50 @@ const CrashGame = () => {
       },
     });
 
+    chartInstance.current = newChart;
+
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
         chartInstance.current = null;
       }
     };
-  }, [xAxisMax, yAxisMax]);
+  }, []);
 
   const startGame = () => {
-    multiplier.current = 0;
-    setXAxisMax(5);
-    setYAxisMax(5);
+    setMultiplier(0);
     setCrashPoint(Math.random() * 50 + 1);
     chartInstance.current!.data.datasets![0].data = [{ x: 0, y: 0 }];
-    chartInstance.current!.update();
 
     const interval = setInterval(() => {
-      let newMultiplier = multiplier.current;
-      newMultiplier += 0.01;
-      multiplier.current = newMultiplier;
-      chartInstance.current!.data.datasets![0].data!.push({
-        x: newMultiplier,
-        y: newMultiplier,
+      setMultiplier((prevMultiplier) => {
+        const newMultiplier = prevMultiplier + 0.01;
+
+        if (newMultiplier > chartInstance.current!.options.scales.y.max!) {
+          chartInstance.current!.options.scales.y.max = newMultiplier + 2;
+          chartInstance.current!.options.scales.x.max = newMultiplier + 2;
+        }
+
+        chartInstance.current!.data.datasets![0].data!.push({
+          x: newMultiplier,
+          y: newMultiplier,
+        });
+
+        if (newMultiplier >= crashPoint) {
+          clearInterval(interval);
+          gameInterval.current = null;
+        }
+
+        chartInstance.current!.update();
+        return newMultiplier;
       });
-      chartInstance.current!.update();
-
-      if (newMultiplier > yAxisMax) {
-        setYAxisMax(newMultiplier + 2);
-      }
-
-      if (newMultiplier > xAxisMax) {
-        setXAxisMax(newMultiplier + 2);
-      }
-
-      if (newMultiplier >= crashPoint) {
-        clearInterval(interval);
-        gameInterval.current = null;
-      }
     }, 100);
 
     gameInterval.current = interval;
   };
 
   const cashOut = () => {
-    setScore(multiplier.current);
+    setScore(multiplier);
     if (gameInterval.current) {
       clearInterval(gameInterval.current);
       gameInterval.current = null;
@@ -113,7 +110,7 @@ const CrashGame = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-800 text-white">
       <canvas ref={chartRef} className="w-5/6 h-1/2 mt-10 mb-5 shadow-lg" />
-      <div className="text-4xl font-bold">{multiplier.current.toFixed(2)}x</div>
+      <div className="text-4xl font-bold">{multiplier.toFixed(2)}x</div>
       <div className="flex flex-row">
         <button
           onClick={startGame}
