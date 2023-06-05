@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "startDev": "NEXT_PUBLIC_NODE_ENV=dev next build && next start -p 3030"
   },
   "dependencies": {
     "@types/node": "20.2.5",
