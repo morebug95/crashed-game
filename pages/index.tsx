@@ -76,9 +76,16 @@ const CrashGame = () => {
       setMultiplier((prevMultiplier) => {
         const newMultiplier = prevMultiplier + 0.01;
 
-        if (newMultiplier > chartInstance.current!.options.scales.y.max!) {
-          chartInstance.current!.options.scales.y.max = newMultiplier + 2;
-          chartInstance.current!.options.scales.x.max = newMultiplier + 2;
+        if (
+          newMultiplier >
+          Number(chartInstance.current?.options.scales?.y?.max || 0)
+        ) {
+          if (chartInstance.current?.options.scales?.y) {
+            chartInstance.current.options.scales.y.max = newMultiplier + 2;
+          }
+          if (chartInstance.current?.options.scales?.x) {
+            chartInstance.current.options.scales.x.max = newMultiplier + 2;
+          }
         }
 
         chartInstance.current!.data.datasets![0].data!.push({
