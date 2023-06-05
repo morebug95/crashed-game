@@ -1,0 +1,20 @@
+FROM alpine:latest
+
+ARG START_COMMAND
+ENV START $START_COMMAND
+
+WORKDIR /home/app/backend
+COPY . /home/app/
+
+RUN apk add bash alpine-sdk linux-headers
+RUN ln -s /bin/bash /usr/bin/bash
+
+RUN apk add --update nodejs npm
+
+RUN npm i -g yarn
+RUN yarn cache clean
+RUN yarn install
+
+RUN if [ "$START_COMMAND" = "start" ] ; then npm run build ; fi
+
+CMD npm run $START

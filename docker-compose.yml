@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  backend1:
+    image: backend
+    restart: on-failure
+  backend2:
+    image: backend
+    restart: on-failure
+  haproxy_lb:
+    depends_on:
+      - backend1
+      - backend2
+    image: haproxy
+    ports:
+      - "5000:3030"
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
