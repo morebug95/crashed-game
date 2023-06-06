@@ -3,7 +3,7 @@ import TabComponent from "./components/content";
 import CrashGame from "./components/crashchart";
 import CardComponent from "./components/side";
 import TableComponent from "./components/table";
-import { sideData } from "./utils/data";
+import { sideData } from "../utils/data";
 import { FaUser } from "react-icons/fa";
 
 const Home = () => {
@@ -35,7 +35,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row justify-center">
       <div className="w-[1300px]">
         <div className="px-[40px]">
           <CrashGame />

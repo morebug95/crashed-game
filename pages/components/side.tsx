@@ -19,12 +19,12 @@ const icons = [
   <FaAngular key="FaAngular" />,
 ];
 
-const CardComponent: React.FC<CardProps> = ({ data }) => {
+const CardComponent: React.FC<CardProps> = ({ data = [] }) => {
   return (
     <div className="text-sm bg-[#1a2c38] px-4 rounded-xl">
       {data.map((item, index) => (
         <div key={index} className="flex justify-between p-2 ">
-          <div className="w-1/3 text-center flex flex-row justify-center items-center">
+          <div className="w-[100px] text-center flex flex-row justify-center items-center">
             <div className="mr-2">
               {React.cloneElement(
                 icons[Math.floor(Math.random() * icons.length)],
@@ -33,8 +33,8 @@ const CardComponent: React.FC<CardProps> = ({ data }) => {
             </div>
             <div>{item.column1}</div>
           </div>
-          <div className="w-1/3 text-center">{item.column2}</div>
-          <div className="w-1/3 text-left text-[#00e701] flex flex-row">
+          <div className="w-[100px] text-center">{item.column2}</div>
+          <div className="w-[100px] text-left text-[#00e701] flex flex-row">
             <div className="mr-2">
               <Image src={"/love.svg"} alt="icon" width={20} height={20} />
             </div>

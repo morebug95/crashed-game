@@ -4,7 +4,11 @@ interface TableProps {
   data: { [key: string]: string | number }[];
 }
 
-const TableComponent: React.FC<TableProps> = ({ data }) => {
+const TableComponent: React.FC<TableProps> = ({ data = [] }) => {
+  if (!data.length) {
+    return <div>No data available</div>;
+  }
+
   const columns = Object.keys(data[0]);
 
   return (
