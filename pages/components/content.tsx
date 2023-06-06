@@ -5,7 +5,7 @@ const TabComponent: React.FC = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   return (
-    <div className="flex border-b bg-white rounded-full w-[500px] justify-center mb-4">
+    <div className="flex  bg-[#1a2c38] rounded-full w-[500px] justify-center mb-4">
       <Tab id="1" activeTab={activeTab} onClick={setActiveTab}>
         My Bets
       </Tab>

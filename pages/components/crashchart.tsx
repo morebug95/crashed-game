@@ -153,11 +153,14 @@ const CrashGame = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-800 text-white">
-      <canvas ref={chartRef} className="w-5/6 h-1/2 mt-10 mb-5 shadow-lg" />
-      <div className="text-4xl font-bold">
-        {isNaN(multiplier) ? "0.00" : multiplier.toFixed(2)}x
+    <div className="flex flex-col items-center  justify-center  text-white">
+      <div className="w-full bg-[#1a2c38] px-[20px] rounded-lg  relative">
+        <canvas ref={chartRef} className="w-5/6 h-1/2 mt-10 mb-5 shadow-lg" />
+        <div className="text-[70px] font-bold absolute top-[30%] left-[40%]">
+          {isNaN(multiplier) ? "0.00" : multiplier.toFixed(2)}x
+        </div>
       </div>
+
       <div className="flex flex-row">
         <button
           onClick={startGame}

@@ -11,8 +11,8 @@ const Tab: React.FC<TabProps> = ({ id, activeTab, children, onClick }) => (
   <button
     className={`px-4 py-2 font-semibold ${
       activeTab === id
-        ? "text-blue-500 border-b-4 border-blue-500"
-        : "text-gray-500"
+        ? "text-white-500 border-b-4 border-white-500"
+        : "text-white"
     }`}
     onClick={() => onClick(id)}
   >
